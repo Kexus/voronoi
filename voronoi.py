@@ -3,6 +3,7 @@ import numpy as np
 import random
 
 WINSIZE = [800, 800]
+GRAIN = 10
 
 WHITE = (255,255,255,255)
 BLACK = (0, 0, 0, 255)
@@ -52,13 +53,13 @@ def main():
     while not done:
         if dirty:
             if len(locuses) != 0:
-                for x in range(WINSIZE[0]):
-                    for y in range(WINSIZE[1]):
-                        indices = index_of_closest(np.array((x,y)), locuses)
+                for x in range(WINSIZE[0]//GRAIN):
+                    for y in range(WINSIZE[1]//GRAIN):
+                        indices = index_of_closest(np.array((x*10,y*10)), locuses)
                         if len(indices) > 1:
                             screen.set_at((x,y), WHITE)
                         else:
-                            screen.set_at((x,y), colors[indices[0]])
+                            pg.draw.rect(screen, colors[indices[0]], pg.Rect((x*GRAIN,y*GRAIN), (GRAIN,GRAIN)))
                             
             # show locuses
             for l in locuses:
